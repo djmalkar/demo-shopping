@@ -26,6 +26,15 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.roomDatabase"
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomDatabase"
 
+    implementation "com.google.dagger:dagger:$rootProject.dagger2"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2"
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
 }

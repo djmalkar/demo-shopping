@@ -34,6 +34,7 @@ ext {
     // App dependencies
     supportLibraryVersion = '27.1.1'
     roomDatabase = '2.2.3'
-    dagger2 = '2.8'
+    dagger2 = '2.26'
+    retrofit = '2.7.1'
 
 }
