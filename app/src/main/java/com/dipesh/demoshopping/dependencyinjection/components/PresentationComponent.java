@@ -1,4 +1,9 @@
 package com.dipesh.demoshopping.dependencyinjection.components;
 
-public class PresentationComponent {
+import com.dipesh.demoshopping.dependencyinjection.modules.PresentationModule;
+
+import dagger.Subcomponent;
+
+@Subcomponent(modules = PresentationModule.class)
+public interface PresentationComponent {
 }

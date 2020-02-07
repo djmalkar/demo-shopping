@@ -1,10 +1,11 @@
-package com.dipesh.demoshopping;
+package com.dipesh.demoshopping.screens.main;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.dipesh.demoshopping.R;
+import com.dipesh.demoshopping.screens.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

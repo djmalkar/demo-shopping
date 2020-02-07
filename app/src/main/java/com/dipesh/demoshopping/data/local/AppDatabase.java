@@ -30,12 +30,8 @@ import com.dipesh.demoshopping.model.tables.VariantTable;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
-
 @Database(entities = {CategoryTable.class, ProductTable.class, SubCategoryTable.class,
-        TaxTable.class, VariantTable.class}, version = 1)
+        TaxTable.class, VariantTable.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     abstract CategoryDao categoryDao();

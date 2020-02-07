@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.dipesh.demoshopping.dependencyinjection.components.ApplicationComponent;
-import com.dipesh.demoshopping.dependencyinjection.modules.ApplicationModule;
+import com.dipesh.demoshopping.dependencyinjection.components.DaggerApplicationComponent;
 
 public class ShoppingApplication extends Application {
 
@@ -18,12 +18,10 @@ public class ShoppingApplication extends Application {
     public void onCreate() {
         super.onCreate();
         component = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
                 .build();
-        component.injectEniApplication(this);
     }
 
-    public ApplicationComponent getComponent() {
+    public ApplicationComponent getApplicationComponent() {
         return component;
     }
 }

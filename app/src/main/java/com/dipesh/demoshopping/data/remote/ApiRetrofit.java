@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 public interface ApiRetrofit {
 
     @GET("/json")
-    Observable<CategoriesRankingSchema> getEstTypesService();
+    Observable<CategoriesRankingSchema> getCategoriesRankingService();
 
 }

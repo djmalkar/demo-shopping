@@ -4,9 +4,10 @@ import android.app.Application;
 
 import com.dipesh.demoshopping.data.local.AppDatabase;
 import com.dipesh.demoshopping.data.remote.ApiRetrofit;
-import com.dipesh.demoshopping.dependencyinjection.ApplicationScope;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
 
 import androidx.room.Room;
 import dagger.Module;
@@ -31,24 +32,23 @@ public class ApplicationModule {
     }
 
     @Provides
-    @ApplicationScope
+    @Singleton
     public AppDatabase provideAppDatabase() {
         return Room.databaseBuilder(mApplication, AppDatabase.class, "shopping.db")
                 .build();
     }
 
     @Provides
-    @ApplicationScope
+    @Singleton
     public OkHttpClient getOkHttpClient(){
-        OkHttpClient client = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS).build();
-
-        return client;
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
     }
 
     @Provides
-    @ApplicationScope
+    @Singleton
     public Retrofit getRetrofitBuilder(OkHttpClient client) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -59,7 +59,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    @ApplicationScope
+    @Singleton
     public ApiRetrofit getApiService(Retrofit retrofit) {
         return retrofit.create(ApiRetrofit.class);
     }
