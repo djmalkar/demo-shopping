@@ -1,6 +1,6 @@
 package com.dipesh.demoshopping.model.networkschemas.categoriesschemas;
 
-class VariantsSchema {
+public class VariantsSchema {
     public int id;
     public String color;
     public int size;

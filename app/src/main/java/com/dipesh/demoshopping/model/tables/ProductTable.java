@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class ProductTable {
     @PrimaryKey
     public int id;
-    public int subCategoryId;
+    public int productTypeId;
     public String name;
     public String date;
     public int viewCounts;

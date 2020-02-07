@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class VariantTable {
     @PrimaryKey
     public int id;
-    public int prodId;
+    public int productId;
     public String color;
     public int size;
     public int price;
