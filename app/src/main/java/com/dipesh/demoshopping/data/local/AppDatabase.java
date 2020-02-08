@@ -18,11 +18,13 @@ package com.dipesh.demoshopping.data.local;
 
 import com.dipesh.demoshopping.data.local.dao.CategoryDao;
 import com.dipesh.demoshopping.data.local.dao.ProductDao;
+import com.dipesh.demoshopping.data.local.dao.ProductTypeDao;
 import com.dipesh.demoshopping.data.local.dao.SubCategoryDao;
 import com.dipesh.demoshopping.data.local.dao.TaxDao;
 import com.dipesh.demoshopping.data.local.dao.VariantDao;
 import com.dipesh.demoshopping.model.tables.CategoryTable;
 import com.dipesh.demoshopping.model.tables.ProductTable;
+import com.dipesh.demoshopping.model.tables.ProductTypeTable;
 import com.dipesh.demoshopping.model.tables.SubCategoryTable;
 import com.dipesh.demoshopping.model.tables.TaxTable;
 import com.dipesh.demoshopping.model.tables.VariantTable;
@@ -30,11 +32,13 @@ import com.dipesh.demoshopping.model.tables.VariantTable;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {CategoryTable.class, ProductTable.class, SubCategoryTable.class,
+@Database(entities = {CategoryTable.class, ProductTypeTable.class, ProductTable.class, SubCategoryTable.class,
         TaxTable.class, VariantTable.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     abstract CategoryDao categoryDao();
+
+    abstract ProductTypeDao productTypeDao();
 
     abstract ProductDao productDao();
 

@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.dipesh.demoshopping.dependencyinjection.components.ApplicationComponent;
 import com.dipesh.demoshopping.dependencyinjection.components.DaggerApplicationComponent;
+import com.dipesh.demoshopping.dependencyinjection.modules.ApplicationModule;
 
 public class ShoppingApplication extends Application {
 
@@ -18,6 +19,7 @@ public class ShoppingApplication extends Application {
     public void onCreate() {
         super.onCreate();
         component = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
                 .build();
     }
 

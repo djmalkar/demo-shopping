@@ -8,12 +8,13 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import io.reactivex.Single;
 
 @Dao
 public interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertAll(List<ProductTable> products);
+    Single<List<Long>> insertAll(List<ProductTable> products);
 
     @Query("SELECT * FROM product")
     List<ProductTable> getAllProducts();

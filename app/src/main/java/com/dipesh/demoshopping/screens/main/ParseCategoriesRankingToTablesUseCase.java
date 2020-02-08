@@ -23,8 +23,11 @@ import java.util.Map;
 
 public class ParseCategoriesRankingToTablesUseCase {
 
-    private ArrayList<CategoriesSchema> mCategoriesSchemas = new ArrayList<>();
+    private CategoriesSchema[] mCategoriesSchemas;
     private HashMap<Integer, Boolean> mCategoriesTracker = new HashMap<>();
+    private HashMap<Integer, Integer> mViewRanking = new HashMap<>();
+    private HashMap<Integer, Integer> mOrderRanking = new HashMap<>();
+    private HashMap<Integer, Integer> mSharedRanking = new HashMap<>();
 
     private List<CategoryTable> mCategoryTables = new ArrayList<>();
     private List<SubCategoryTable> mSubCategoryTables = new ArrayList<>();
@@ -32,40 +35,60 @@ public class ParseCategoriesRankingToTablesUseCase {
     private List<ProductTable> mProductTables = new ArrayList<>();
     private List<VariantTable> mVariantTables = new ArrayList<>();
 
-    public void categoriesSchema(CategoriesRankingSchema categoriesRankingSchema) {
+    public CategoriesTableModel parseSchema(CategoriesRankingSchema categoriesRankingSchema) {
+        // for convenience take one extra size
+        mCategoriesSchemas = new CategoriesSchema[categoriesRankingSchema.categories.size() + 1];
+
         for (CategoriesSchema categoriesSchema : categoriesRankingSchema.categories) {
-            mCategoriesSchemas.add(categoriesSchema.id, categoriesSchema);
+            mCategoriesSchemas[categoriesSchema.id] = categoriesSchema;
             if(!categoriesSchema.child_categories.isEmpty()) {
                 mCategoriesTracker.put(categoriesSchema.id, false);
             }
         }
 
-        for (int i = 0; i < categoriesRankingSchema.rankings.size(); i++) {
-            switch (i) {
-                case 0 :
-                    Type viewList = new TypeToken<List<RankingViewedProducts>>(){}.getType();
-                    List<RankingViewedProducts> viewRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(i).ranking, viewList);
-                    break;
-                case 1 :
-                    Type orderList = new TypeToken<List<RankingOrderedProducts>>(){}.getType();
-                    List<RankingOrderedProducts> orderRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(i).ranking, orderList);
-                    break;
-                case 2 :
-                    Type sharedList = new TypeToken<List<RankingSharedProducts>>(){}.getType();
-                    List<RankingSharedProducts> sharedRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(i).ranking, sharedList);
-                    break;
-            }
+        Type listType = new TypeToken<List<RankingViewedProducts>>() {}.getType();
+        List<RankingViewedProducts> viewRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(0).products.toString(), listType);
+        processViewRanking(viewRanking);
 
-        }
+        listType = new TypeToken<List<RankingOrderedProducts>>() {}.getType();
+        List<RankingOrderedProducts> orderRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(1).products.toString(), listType);
+        processOrderRanking(orderRanking);
+
+        listType = new TypeToken<List<RankingSharedProducts>>() {}.getType();
+        List<RankingSharedProducts> sharedRanking = new Gson().fromJson(categoriesRankingSchema.rankings.get(2).products.toString(), listType);
+        processSharedRanking(sharedRanking);
 
         processCategories();
+
+        CategoriesTableModel categoriesTableModel = new CategoriesTableModel(mCategoryTables,
+                mSubCategoryTables, mProductTypeTables, mProductTables, mVariantTables);
+
+        return categoriesTableModel;
+    }
+
+    private void processViewRanking(List<RankingViewedProducts> viewRanking) {
+        for (RankingViewedProducts rankingViewedProducts : viewRanking) {
+            mViewRanking.put(rankingViewedProducts.id, rankingViewedProducts.view_count);
+        }
+    }
+
+    private void processOrderRanking(List<RankingOrderedProducts> orderRanking) {
+        for (RankingOrderedProducts rankingOrderedProducts : orderRanking) {
+            mOrderRanking.put(rankingOrderedProducts.id, rankingOrderedProducts.order_count);
+        }
+    }
+
+    private void processSharedRanking(List<RankingSharedProducts> sharedRanking) {
+        for (RankingSharedProducts rankingSharedProducts : sharedRanking) {
+            mSharedRanking.put(rankingSharedProducts.id, rankingSharedProducts.shares);
+        }
     }
 
     private void processCategories() {
         for (Map.Entry<Integer,Boolean> entry : mCategoriesTracker.entrySet()) {
             if(!entry.getValue()) {
                 entry.setValue(true);
-                CategoriesSchema categoriesSchema = mCategoriesSchemas.get(entry.getKey());
+                CategoriesSchema categoriesSchema = mCategoriesSchemas[entry.getKey()];
                 CategoryTable categoryTable = new CategoryTable();
                 categoryTable.id = categoriesSchema.id;
                 categoryTable.name = categoriesSchema.name;
@@ -78,7 +101,7 @@ public class ParseCategoriesRankingToTablesUseCase {
     private void processSubCategories(List<Integer> subCategoriesIds, int categoryId) {
         for (Integer subCategoryId : subCategoriesIds) {
             mCategoriesTracker.put(subCategoryId, true);
-            CategoriesSchema categoriesSchema = mCategoriesSchemas.get(subCategoryId);
+            CategoriesSchema categoriesSchema = mCategoriesSchemas[subCategoryId];
             SubCategoryTable subCategoryTable = new SubCategoryTable();
             subCategoryTable.categoryId = categoryId;
             subCategoryTable.id = categoriesSchema.id;
@@ -90,7 +113,7 @@ public class ParseCategoriesRankingToTablesUseCase {
 
     private void processProductsType(List<Integer> productTypeIds, int subCategoryId) {
         for (Integer productTypeId : productTypeIds) {
-            CategoriesSchema categoriesSchema = mCategoriesSchemas.get(productTypeId);
+            CategoriesSchema categoriesSchema = mCategoriesSchemas[productTypeId];
             ProductTypeTable productTypeTable = new ProductTypeTable();
             productTypeTable.subCategoryId = subCategoryId;
             productTypeTable.id = productTypeId;
@@ -107,9 +130,9 @@ public class ParseCategoriesRankingToTablesUseCase {
             productTable.productTypeId = productTypeId;
             productTable.name = product.name;
             productTable.date = product.date_added;
-            /*productTable.viewCounts;
-            productTable.orderCounts;
-            productTable.sharedCounts;*/
+            productTable.viewCounts = mViewRanking.get(product.id) == null ? 0 : mViewRanking.get(product.id);
+            productTable.orderCounts = mOrderRanking.get(product.id) == null ? 0 : mOrderRanking.get(product.id);
+            productTable.sharedCounts = mSharedRanking.get(product.id) == null ? 0 : mSharedRanking.get(product.id);
             mProductTables.add(productTable);
             processVariants(product.variants, productTable.id);
         }
@@ -120,6 +143,7 @@ public class ParseCategoriesRankingToTablesUseCase {
             VariantTable variantTable = new VariantTable();
             variantTable.id = variantsSchema.id;
             variantTable.productId = productId;
+            variantTable.color = variantsSchema.color;
             variantTable.size = variantsSchema.size;
             variantTable.price = variantsSchema.price;
             mVariantTables.add(variantTable);
