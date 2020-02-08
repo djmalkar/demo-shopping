@@ -8,10 +8,10 @@ import com.dipesh.demoshopping.data.remote.ApiRetrofit;
 import com.dipesh.demoshopping.screens.common.ViewMvcFactory;
 import com.dipesh.demoshopping.screens.common.fragmentframehelper.FragmentFrameHelper;
 import com.dipesh.demoshopping.screens.common.fragmentframehelper.FragmentFrameWrapper;
-import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerHelper;
 import com.dipesh.demoshopping.screens.common.screensnavigator.ScreensNavigator;
 import com.dipesh.demoshopping.screens.main.FetchCategoriesRankingUseCase;
 import com.dipesh.demoshopping.screens.main.ParseCategoriesRankingToTablesUseCase;
+import com.dipesh.demoshopping.screens.products.FetchProductsUseCase;
 import com.dipesh.demoshopping.screens.subcategorieslisting.FetchSubCategoryForAdapterUseCase;
 
 import androidx.fragment.app.FragmentActivity;
@@ -42,13 +42,8 @@ public class PresentationModule {
     }
 
     @Provides
-    NavDrawerHelper getNavDrawerHelper() {
-        return (NavDrawerHelper) getActivity();
-    }
-
-    @Provides
-    ViewMvcFactory getViewMvcFactory(LayoutInflater layoutInflater, NavDrawerHelper navDrawerHelper){
-        return new ViewMvcFactory(layoutInflater, navDrawerHelper);
+    ViewMvcFactory getViewMvcFactory(LayoutInflater layoutInflater){
+        return new ViewMvcFactory(layoutInflater);
     }
 
     @Provides
@@ -67,8 +62,8 @@ public class PresentationModule {
     }
 
     @Provides
-    ScreensNavigator getScreenNavigator(FragmentFrameHelper fragmentFrameHelper) {
-        return new ScreensNavigator(fragmentFrameHelper);
+    ScreensNavigator getScreenNavigator(Context context, FragmentFrameHelper fragmentFrameHelper) {
+        return new ScreensNavigator(context, fragmentFrameHelper);
     }
 
     @Provides
@@ -85,5 +80,10 @@ public class PresentationModule {
     @Provides
     FetchSubCategoryForAdapterUseCase getFetchSubCategoryForAdapterUseCase(DbHelperImpl dbHelperImpl) {
         return new FetchSubCategoryForAdapterUseCase(dbHelperImpl);
+    }
+
+    @Provides
+    FetchProductsUseCase getFetchProductsUseCase(DbHelperImpl dbHelperImpl) {
+        return new FetchProductsUseCase(dbHelperImpl);
     }
 }

@@ -23,9 +23,10 @@ public interface DbHelper {
     Single<List<SubCategoryTable>> getSubCategoriesByCategoryId(int categoryId);
 
     Single<List<Long>> insertProductTypes(List<ProductTypeTable> productTypeTables);
-    Single<List<ProductTypeTable>> getProductsBySubCategoryId(int subCategoryId);
+    Single<List<ProductTypeTable>> getProductTypesBySubCategoryId(int subCategoryId);
 
     Single<List<Long>> insertProducts(List<ProductTable> productTables);
+    Single<List<ProductTable>> getProductsByTypeId(int productTypeId);
 
     Single<List<Long>> insertVariants(List<VariantTable> variantTables);
 

@@ -32,7 +32,7 @@ public class FetchSubCategoryForAdapterUseCase extends BaseObservable<FetchSubCa
                 .flatMap(subCategoryTables -> Observable.fromIterable(subCategoryTables))
                 .flatMap(subCategoryTable -> {
                     addSubCategory(subCategoryTable);
-                    return mDbHelper.getProductsBySubCategoryId(subCategoryTable.id).toObservable();
+                    return mDbHelper.getProductTypesBySubCategoryId(subCategoryTable.id).toObservable();
                 })
                 .map(productTypeTables -> {
                     addProductTypes(productTypeTables);

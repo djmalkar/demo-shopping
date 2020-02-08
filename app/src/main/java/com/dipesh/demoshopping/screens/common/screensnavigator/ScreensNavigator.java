@@ -1,14 +1,19 @@
 package com.dipesh.demoshopping.screens.common.screensnavigator;
 
+import android.content.Context;
+
 import com.dipesh.demoshopping.screens.common.fragmentframehelper.FragmentFrameHelper;
+import com.dipesh.demoshopping.screens.products.ProductsActivity;
 import com.dipesh.demoshopping.screens.subcategorieslisting.SubCategoriesFragment;
 
 public class ScreensNavigator {
 
     private FragmentFrameHelper mFragmentFrameHelper;
+    private Context mContext;
 
-    public ScreensNavigator(FragmentFrameHelper fragmentFrameHelper) {
+    public ScreensNavigator(Context context, FragmentFrameHelper fragmentFrameHelper) {
         mFragmentFrameHelper = fragmentFrameHelper;
+        mContext = context;
     }
 
     public void toSubCategoriesFragment(int categoryId) {
@@ -17,5 +22,9 @@ public class ScreensNavigator {
 
     public void navigateUp() {
         mFragmentFrameHelper.navigateUp();
+    }
+
+    public void toProductActivity(int productTypeId, String productType) {
+        mContext.startActivity(ProductsActivity.newInstance(mContext, productTypeId, productType));
     }
 }

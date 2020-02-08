@@ -49,13 +49,18 @@ public class DbHelperImpl implements DbHelper {
     }
 
     @Override
-    public Single<List<ProductTypeTable>> getProductsBySubCategoryId(int subCategoryId) {
+    public Single<List<ProductTypeTable>> getProductTypesBySubCategoryId(int subCategoryId) {
         return mAppDatabase.productTypeDao().getProductTypesBySubCategoryId(subCategoryId);
     }
 
     @Override
     public Single<List<Long>> insertProducts(List<ProductTable> productTables) {
         return mAppDatabase.productDao().insertAll(productTables);
+    }
+
+    @Override
+    public Single<List<ProductTable>> getProductsByTypeId(int productTypeId) {
+        return mAppDatabase.productDao().getProductsByTypeId(productTypeId);
     }
 
     @Override

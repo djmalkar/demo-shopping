@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity implements FetchCategoriesRanking
 
     @Inject FetchCategoriesRankingUseCase mFetchCategoriesRankingUseCase;
 
-    NavDrawerViewMvc mViewMvc;
+    private NavDrawerViewMvc mViewMvc;
 
     @Inject ScreensNavigator mScreensNavigator;
 

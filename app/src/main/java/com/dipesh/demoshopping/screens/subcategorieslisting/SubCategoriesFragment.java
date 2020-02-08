@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dipesh.demoshopping.model.tables.ProductTypeTable;
 import com.dipesh.demoshopping.screens.base.BaseFragment;
+import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerHelper;
 import com.dipesh.demoshopping.screens.common.screensnavigator.ScreensNavigator;
 
 import java.util.HashMap;
@@ -35,12 +37,13 @@ public class SubCategoriesFragment extends BaseFragment implements
     FetchSubCategoryForAdapterUseCase mFetchSubCategoryForAdapterUseCase;
 
     private SubCategoriesViewMvc mViewMvc;
+    private boolean mIsFirstTime = true;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mViewMvc = getPresentationComponent().getViewMvcFactory().getSubCategoriesViewMvc(container);
+        mViewMvc = getPresentationComponent().getViewMvcFactory().getSubCategoriesViewMvcImpl(container, (NavDrawerHelper) getActivity());
         getPresentationComponent().injectSubcategoriesFragment(this);
 
         return mViewMvc.getRootView();
@@ -52,7 +55,10 @@ public class SubCategoriesFragment extends BaseFragment implements
         mViewMvc.registerListener(this);
         mFetchSubCategoryForAdapterUseCase.registerListener(this);
 
-        mFetchSubCategoryForAdapterUseCase.getAdapterDataAndNotify(getCategoryId());
+        if(mIsFirstTime) {
+            mIsFirstTime = false;
+            mFetchSubCategoryForAdapterUseCase.getAdapterDataAndNotify(getCategoryId());
+        }
     }
 
     @Override
@@ -70,4 +76,8 @@ public class SubCategoriesFragment extends BaseFragment implements
         mViewMvc.setAdapterData(subCategoryModelHashMap);
     }
 
+    @Override
+    public void onProductTypeClicked(ProductTypeTable productType) {
+        mScreensNavigator.toProductActivity(productType.id, productType.name);
+    }
 }

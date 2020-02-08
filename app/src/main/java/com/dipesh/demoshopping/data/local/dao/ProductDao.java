@@ -16,7 +16,7 @@ public interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Single<List<Long>> insertAll(List<ProductTable> products);
 
-    @Query("SELECT * FROM product")
-    List<ProductTable> getAllProducts();
+    @Query("SELECT * FROM product WHERE productTypeId = :typeId")
+    Single<List<ProductTable>> getProductsByTypeId(int typeId);
 
 }

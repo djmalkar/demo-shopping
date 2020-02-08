@@ -17,7 +17,7 @@ public class SubCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         implements SubCategoryItemViewMvc.Listener {
 
     public interface Listener {
-        void onSubCategoryClicked(ProductTypeTable productTypeTable);
+        void onProductTypeClicked(ProductTypeTable productTypeTable);
     }
 
     static class ProductTypeViewHolder extends RecyclerView.ViewHolder {
@@ -94,8 +94,8 @@ public class SubCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public void onSubCategoryClicked(ProductTypeTable productTypeTable) {
-        mListener.onSubCategoryClicked(productTypeTable);
+    public void onProductTypeClicked(ProductTypeTable productTypeTable) {
+        mListener.onProductTypeClicked(productTypeTable);
     }
 
 }

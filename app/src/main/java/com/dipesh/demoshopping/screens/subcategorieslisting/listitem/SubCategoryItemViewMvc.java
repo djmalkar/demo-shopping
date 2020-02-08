@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 public class SubCategoryItemViewMvc extends BaseObservableViewMvc<SubCategoryItemViewMvc.Listener> {
 
     public interface Listener {
-        void onSubCategoryClicked(ProductTypeTable productTypeTable);
+        void onProductTypeClicked(ProductTypeTable productTypeTable);
     }
 
     private final TextView mText;
@@ -27,7 +27,7 @@ public class SubCategoryItemViewMvc extends BaseObservableViewMvc<SubCategoryIte
 
         getRootView().setOnClickListener(view -> {
             if(getListeners() != null) {
-                getListeners().onSubCategoryClicked(mProductType);
+                getListeners().onProductTypeClicked(mProductType);
             }
         });
     }
