@@ -8,30 +8,24 @@ import android.view.ViewGroup;
 import com.dipesh.demoshopping.screens.base.BaseFragment;
 import com.dipesh.demoshopping.screens.common.screensnavigator.ScreensNavigator;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class SubCategoriesFragment extends BaseFragment implements
-        SubCategoriesViewMvc.Listener {
+        SubCategoriesViewMvc.Listener, FetchSubCategoryForAdapterUseCase.Listener {
 
     private static final String CATEGORY_ID = "CATEGORY_ID";
 
-    private static final String DIALOG_ID_NETWORK_ERROR = "DIALOG_ID_NETWORK_ERROR";
-
-    private static final String SAVED_STATE_SCREEN_STATE = "SAVED_STATE_SCREEN_STATE";
-
-    public static SubCategoriesFragment newInstance(String questionId) {
+    public static SubCategoriesFragment newInstance(int categoryId) {
         Bundle args = new Bundle();
-        args.putString(CATEGORY_ID, questionId);
+        args.putInt(CATEGORY_ID, categoryId);
         SubCategoriesFragment fragment = new SubCategoriesFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    private enum ScreenState {
-        IDLE, QUESTION_DETAILS_SHOWN, NETWORK_ERROR
     }
 
     @Inject
@@ -41,16 +35,6 @@ public class SubCategoriesFragment extends BaseFragment implements
     FetchSubCategoryForAdapterUseCase mFetchSubCategoryForAdapterUseCase;
 
     private SubCategoriesViewMvc mViewMvc;
-
-    private ScreenState mScreenState = ScreenState.IDLE;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            mScreenState = (ScreenState) savedInstanceState.getSerializable(SAVED_STATE_SCREEN_STATE);
-        }
-    }
 
     @Nullable
     @Override
@@ -66,10 +50,9 @@ public class SubCategoriesFragment extends BaseFragment implements
     public void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
+        mFetchSubCategoryForAdapterUseCase.registerListener(this);
 
-        if (mScreenState != ScreenState.NETWORK_ERROR) {
-            fetchQuestionDetailsAndNotify();
-        }
+        mFetchSubCategoryForAdapterUseCase.getAdapterDataAndNotify(getCategoryId());
     }
 
     @Override
@@ -78,23 +61,13 @@ public class SubCategoriesFragment extends BaseFragment implements
         mViewMvc.unregisterListener(this);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(SAVED_STATE_SCREEN_STATE, mScreenState);
-    }
-
-    private void fetchQuestionDetailsAndNotify() {
-        mViewMvc.showProgressIndication();
-    }
-
-    private String getQuestionId() {
-        return getArguments().getString(CATEGORY_ID);
+    private int getCategoryId() {
+        return getArguments().getInt(CATEGORY_ID);
     }
 
     @Override
-    public void onNavigateUpClicked() {
-        mScreensNavigator.navigateUp();
+    public void onSubCategoriesFetched(HashMap<Integer, SubCategoryModel> subCategoryModelHashMap) {
+        mViewMvc.setAdapterData(subCategoryModelHashMap);
     }
 
 }

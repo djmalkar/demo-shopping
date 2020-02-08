@@ -1,9 +1,8 @@
 package com.dipesh.demoshopping.screens.common.toolbar;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dipesh.demoshopping.R;
@@ -16,19 +15,14 @@ public class ToolbarViewMvc extends BaseViewMvc {
     }
 
     private final TextView mTxtTitle;
-    private final ImageButton mBtnHamburger;
+    private final ImageView mBtnHamburger;
     private HamburgerClickListener mHamburgerClickListener;
 
     public ToolbarViewMvc(LayoutInflater inflater, ViewGroup parent) {
         setRootView(inflater.inflate(R.layout.layout_toolbar, parent, false));
         mTxtTitle = findViewById(R.id.txt_toolbar_title);
         mBtnHamburger = findViewById(R.id.btn_hamburger);
-        mBtnHamburger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mHamburgerClickListener.onHamburgerClicked();
-            }
-        });
+        mBtnHamburger.setOnClickListener(view -> mHamburgerClickListener.onHamburgerClicked());
     }
 
     public void setTitle(String title) {
@@ -37,7 +31,6 @@ public class ToolbarViewMvc extends BaseViewMvc {
 
     public void enableHamburgerButtonAndListen(HamburgerClickListener hamburgerClickListener) {
         mHamburgerClickListener = hamburgerClickListener;
-        mBtnHamburger.setVisibility(View.VISIBLE);
     }
 
 }

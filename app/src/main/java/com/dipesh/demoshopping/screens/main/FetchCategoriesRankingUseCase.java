@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategoriesRankingUseCase.Listener> {
 
     public interface Listener {
-
+        void onCategoriesFetched(List<CategoryTable> categoryTables);
     }
 
     private final DbHelper mDbHelper;
@@ -47,7 +47,7 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
                             isFirstTime = false;
                             fetchFromRemoteServer();
                         } else if (categoryTables.size() > 0){
-
+                            getListener().onCategoriesFetched(categoryTables);
                         }
                         Log.d(TAG, "onSuccess: ");
                     }

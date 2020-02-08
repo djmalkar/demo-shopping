@@ -2,13 +2,16 @@ package com.dipesh.demoshopping.screens.subcategorieslisting;
 
 import com.dipesh.demoshopping.screens.common.views.ObservableViewMvc;
 
+import java.util.HashMap;
+
 public interface SubCategoriesViewMvc extends ObservableViewMvc<SubCategoriesViewMvc.Listener> {
 
-    public interface Listener {
-        void onNavigateUpClicked();
+    interface Listener {
     }
 
-    void showProgressIndication();
+    void showProgressBar();
 
-    void hideProgressIndication();
+    void hideProgressBar();
+
+    void setAdapterData(HashMap<Integer, SubCategoryModel> subCategoryModelHashMap);
 }

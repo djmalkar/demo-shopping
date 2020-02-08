@@ -1,53 +1,63 @@
 package com.dipesh.demoshopping.screens.main;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
-import com.dipesh.demoshopping.R;
+import com.dipesh.demoshopping.model.tables.CategoryTable;
 import com.dipesh.demoshopping.screens.base.BaseActivity;
+import com.dipesh.demoshopping.screens.common.fragmentframehelper.FragmentFrameWrapper;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerHelper;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerViewMvc;
 import com.dipesh.demoshopping.screens.common.screensnavigator.ScreensNavigator;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements FetchCategoriesRankingUseCase.Listener,
-        NavDrawerViewMvc.Listener, NavDrawerHelper {
+        NavDrawerViewMvc.Listener, NavDrawerHelper, FragmentFrameWrapper {
 
-    @Inject
-    FetchCategoriesRankingUseCase mFetchCategoriesRankingUseCase;
+    @Inject FetchCategoriesRankingUseCase mFetchCategoriesRankingUseCase;
 
-    private NavDrawerViewMvc mViewMvc;
-    private ScreensNavigator mScreensNavigator;
+    NavDrawerViewMvc mViewMvc;
+
+    @Inject ScreensNavigator mScreensNavigator;
+
+    private boolean mIsFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
         getPresentationComponent().injectMainActivity(this);
 
-        setContentView(mViewMvc.getRootView());
+        mViewMvc = getPresentationComponent().getViewMvcFactory().getNavDrawerViewMvc(null);
 
-        if (savedInstanceState == null) {
-            //mScreensNavigator.toQuestionsList();
-        }
+        setContentView(mViewMvc.getRootView());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mViewMvc.registerListener(this);
         mFetchCategoriesRankingUseCase.registerListener(this);
-        mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
+
+        if(mIsFirstTime) {
+            mViewMvc.showProgress();
+            mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mViewMvc.unregisterListener(this);
         mFetchCategoriesRankingUseCase.removeListener(this);
     }
 
     @Override
-    public void onQuestionsListClicked() {
-
+    public void onNavItemClicked(int categoryId) {
+        mScreensNavigator.toSubCategoriesFragment(categoryId);
     }
 
     @Override
@@ -61,7 +71,14 @@ public class MainActivity extends BaseActivity implements FetchCategoriesRanking
     }
 
     @Override
-    public boolean isDrawerOpen() {
-        return mViewMvc.isDrawerOpen();
+    public FrameLayout getFragmentFrame() {
+        return mViewMvc.getFragmentFrame();
+    }
+
+    @Override
+    public void onCategoriesFetched(List<CategoryTable> categoryTables) {
+        mViewMvc.hideProgress();
+        mViewMvc.setMenuItems(categoryTables);
+        mScreensNavigator.toSubCategoriesFragment(categoryTables.get(0).id);
     }
 }

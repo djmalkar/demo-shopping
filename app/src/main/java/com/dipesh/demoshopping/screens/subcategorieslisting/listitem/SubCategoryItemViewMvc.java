@@ -1,7 +1,6 @@
 package com.dipesh.demoshopping.screens.subcategorieslisting.listitem;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -26,12 +25,9 @@ public class SubCategoryItemViewMvc extends BaseObservableViewMvc<SubCategoryIte
 
         mText = findViewById(R.id.text);
 
-        getRootView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (Listener listener : getListeners()) {
-                    listener.onSubCategoryClicked(mProductType);
-                }
+        getRootView().setOnClickListener(view -> {
+            if(getListeners() != null) {
+                getListeners().onSubCategoryClicked(mProductType);
             }
         });
     }

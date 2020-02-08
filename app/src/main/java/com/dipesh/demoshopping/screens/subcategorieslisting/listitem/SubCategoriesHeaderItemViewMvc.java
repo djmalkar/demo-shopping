@@ -16,7 +16,7 @@ public class SubCategoriesHeaderItemViewMvc extends BaseViewMvc {
     public SubCategoriesHeaderItemViewMvc(LayoutInflater inflater, @Nullable ViewGroup parent) {
         setRootView(inflater.inflate(R.layout.item_header_list_view, parent, false));
 
-        mHeaderText = findViewById(R.id.text);
+        mHeaderText = findViewById(R.id.header_text);
     }
 
     public void bindData(String name) {

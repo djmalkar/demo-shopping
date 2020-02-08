@@ -1,17 +1,21 @@
 package com.dipesh.demoshopping.screens.common.navdrawer;
 
+import android.widget.FrameLayout;
+
+import com.dipesh.demoshopping.model.tables.CategoryTable;
 import com.dipesh.demoshopping.screens.common.views.ObservableViewMvc;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
+import java.util.List;
 
 public interface NavDrawerViewMvc extends ObservableViewMvc<NavDrawerViewMvc.Listener> {
 
     interface Listener {
-        void onQuestionsListClicked();
+        void onNavItemClicked(int categoryId);
     }
-    ConstraintLayout getFragmentFrame();
-    boolean isDrawerOpen();
+    FrameLayout getFragmentFrame();
+    void setMenuItems(List<CategoryTable> categories);
     void openDrawer();
     void closeDrawer();
-
+    void showProgress();
+    void hideProgress();
 }

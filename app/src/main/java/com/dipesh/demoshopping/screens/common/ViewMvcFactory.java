@@ -25,7 +25,7 @@ public class ViewMvcFactory {
     }
 
     public SubCategoriesViewMvc getSubCategoriesViewMvc(@Nullable ViewGroup parent) {
-        return new SubCategoriesViewMvcImpl(mLayoutInflater, parent, this);
+        return new SubCategoriesViewMvcImpl(mLayoutInflater, parent, this, mNavDrawerHelper);
     }
 
     public ToolbarViewMvc getToolbarViewMvc(@Nullable ViewGroup parent) {

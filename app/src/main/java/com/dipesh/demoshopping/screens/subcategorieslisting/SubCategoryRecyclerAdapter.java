@@ -38,7 +38,6 @@ public class SubCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             super(viewMvc.getRootView());
             mViewMvc = viewMvc;
         }
-
     }
 
     private static final int VIEW_TYPE_SUB_CATEGORY = 1;
@@ -46,7 +45,7 @@ public class SubCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     private final Listener mListener;
     private final ViewMvcFactory mViewMvcFactory;
 
-    private Map<Integer, SubCategoryModel> mSubCategoryData;
+    private Map<Integer, SubCategoryModel> mSubCategoryData = new HashMap<>();
 
     public SubCategoryRecyclerAdapter(Listener listener, ViewMvcFactory viewMvcFactory) {
         mListener = listener;
@@ -57,14 +56,6 @@ public class SubCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         mSubCategoryData = new HashMap<>(subCategoryData);
         notifyDataSetChanged();
     }
-
-    /*@NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        QuestionsListItemViewMvc viewMvc = mViewMvcFactory.getQuestionsListItemViewMvc(parent);
-        viewMvc.registerListener(this);
-        return new ProductTypeViewHolder(viewMvc);
-    }*/
 
     @NonNull
     @Override
