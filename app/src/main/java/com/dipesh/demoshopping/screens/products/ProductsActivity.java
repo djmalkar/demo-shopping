@@ -35,6 +35,7 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
         getPresentationComponent().injectProductActivity(this);
 
         mViewMvc = getPresentationComponent().getViewMvcFactory().getProductViewMvc(null);
+        mViewMvc.setTitle(getProductType());
 
         setContentView(mViewMvc.getRootView());
     }
@@ -44,7 +45,7 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
         super.onStart();
         mViewMvc.registerListener(this);
         mFetchProductsUseCase.registerListener(this);
-        mViewMvc.setTitle(getProductType());
+
 
         if(mIsFirstTime) {
             mIsFirstTime = false;

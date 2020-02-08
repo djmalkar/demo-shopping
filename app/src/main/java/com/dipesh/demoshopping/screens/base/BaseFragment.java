@@ -7,7 +7,7 @@ import com.dipesh.demoshopping.dependencyinjection.modules.PresentationModule;
 
 import androidx.fragment.app.Fragment;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     protected PresentationComponent getPresentationComponent() {
         return getApplicationComponent().newPresentationComponent(new PresentationModule(getActivity()));

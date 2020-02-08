@@ -1,9 +1,10 @@
 package com.dipesh.demoshopping.screens.common;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptViewMvc;
+import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptViewMvcImpl;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerHelper;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerViewMvc;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerViewMvcImpl;
@@ -15,8 +16,6 @@ import com.dipesh.demoshopping.screens.subcategorieslisting.listitem.SubCategori
 import com.dipesh.demoshopping.screens.subcategorieslisting.listitem.SubCategoryItemViewMvc;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class ViewMvcFactory {
 
@@ -52,5 +51,9 @@ public class ViewMvcFactory {
 
     public ProductItemViewMvc getProductItemViewMvc(ViewGroup parent) {
         return new ProductItemViewMvc(mLayoutInflater, parent);
+    }
+
+    public PromptViewMvc getPromptViewMvc(ViewGroup viewGroup) {
+        return new PromptViewMvcImpl(mLayoutInflater, null);
     }
 }

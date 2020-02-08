@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.dipesh.demoshopping.data.local.AppDatabase;
 import com.dipesh.demoshopping.data.remote.ApiRetrofit;
+import com.dipesh.demoshopping.screens.common.dialogs.DialogsEventBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -62,5 +63,11 @@ public class ApplicationModule {
     @Singleton
     public ApiRetrofit getApiService(Retrofit retrofit) {
         return retrofit.create(ApiRetrofit.class);
+    }
+
+    @Provides
+    @Singleton
+    DialogsEventBus getDialogsEventBus() {
+        return new DialogsEventBus();
     }
 }

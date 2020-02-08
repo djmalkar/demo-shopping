@@ -5,15 +5,16 @@ import com.dipesh.demoshopping.dependencyinjection.components.ApplicationCompone
 import com.dipesh.demoshopping.dependencyinjection.components.PresentationComponent;
 import com.dipesh.demoshopping.dependencyinjection.modules.PresentationModule;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseDialog extends DialogFragment {
 
     protected PresentationComponent getPresentationComponent() {
-        return getApplicationComponent().newPresentationComponent(new PresentationModule(this));
+        return getApplicationComponent().newPresentationComponent(new PresentationModule(getActivity()));
     }
 
     private ApplicationComponent getApplicationComponent() {
-        return ((ShoppingApplication) getApplication()).getApplicationComponent();
+        return ((ShoppingApplication) getActivity().getApplication()).getApplicationComponent();
     }
+
 }
