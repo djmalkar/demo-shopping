@@ -24,7 +24,7 @@ public class VariantsItemViewMvc extends BaseViewMvc {
 
     public void bindData(VariantModel variant) {
         mColorText.setText("Color : " + variant.color);
-        mSizeText.setText("Size : " + variant.color);
+        mSizeText.setText("Size : " + variant.size);
         mPriceText.setText("Price with tax : " + (variant.price + variant.taxValue));
     }
 }

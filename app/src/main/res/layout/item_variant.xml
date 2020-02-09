@@ -10,6 +10,7 @@
         android:id="@+id/color_txt"
         android:layout_width="wrap_content"
         android:padding="4dp"
+        android:textSize="16sp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,7 +32,7 @@
         android:padding="4dp"
         android:textSize="16sp"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/size_txt"
         tool:text="Price : 10.52" />
 
