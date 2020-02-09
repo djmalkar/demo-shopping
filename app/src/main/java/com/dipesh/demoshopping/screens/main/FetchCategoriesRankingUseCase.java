@@ -21,13 +21,13 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
 
     public interface Listener {
         void onCategoriesFetched(List<CategoryTable> categoryTables);
+        boolean isNetworkConnected();
         void onFetchingFailed();
     }
 
     private final DbHelper mDbHelper;
     private final ApiRetrofit mApiRetrofit;
     private final ParseCategoriesRankingToTablesUseCase mParseCategoriesRankingToTablesUseCase;
-    private boolean isFirstTime = true;
 
     private static final String TAG = "FetchCategoriesRanking";
 
@@ -47,11 +47,12 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
                 .subscribe(new DisposableSingleObserver<List<CategoryTable>>() {
                     @Override
                     public void onSuccess(List<CategoryTable> categoryTables) {
-                        if(categoryTables.size() == 0 && isFirstTime) {
-                            isFirstTime = false;
+                        if(categoryTables.size() == 0 && getListener() != null && getListener().isNetworkConnected()) {
                             fetchFromRemoteServer();
-                        } else if (categoryTables.size() > 0){
+                        } else if (getListener() != null && categoryTables.size() > 0){
                             getListener().onCategoriesFetched(categoryTables);
+                        } else if (getListener() != null && !getListener().isNetworkConnected()){
+                            getListener().onFetchingFailed();
                         }
                         Log.d(TAG, "onSuccess: ");
                     }

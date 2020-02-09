@@ -62,15 +62,12 @@ public class MainActivity extends BaseActivity implements FetchCategoriesRanking
     }
 
     private void startDataFetching() {
-        if(!isNetworkConnected()) {
-            mDialogsManager.showRetryDialog(InfoDialog.TAG);
-            return;
-        }
         mViewMvc.showProgress();
         mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
     }
 
-    private boolean isNetworkConnected() {
+    @Override
+    public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
