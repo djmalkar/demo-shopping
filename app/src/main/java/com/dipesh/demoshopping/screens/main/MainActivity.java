@@ -56,13 +56,18 @@ public class MainActivity extends BaseActivity implements FetchCategoriesRanking
         mFetchCategoriesRankingUseCase.registerListener(this);
 
         if(mIsFirstTime) {
-            if(!isNetworkConnected()) {
-                mDialogsManager.showRetryDialog(InfoDialog.TAG);
-            }
             mIsFirstTime = false;
-            mViewMvc.showProgress();
-            mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
+            startDataFetching();
         }
+    }
+
+    private void startDataFetching() {
+        if(!isNetworkConnected()) {
+            mDialogsManager.showRetryDialog(InfoDialog.TAG);
+            return;
+        }
+        mViewMvc.showProgress();
+        mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
     }
 
     private boolean isNetworkConnected() {
@@ -111,10 +116,15 @@ public class MainActivity extends BaseActivity implements FetchCategoriesRanking
     }
 
     @Override
+    public void onFetchingFailed() {
+        mViewMvc.hideProgress();
+        mDialogsManager.showRetryDialog(InfoDialog.TAG);
+    }
+
+    @Override
     public void onDialogEvent(Object event) {
         if(event instanceof InfoDialogEvent) {
-            mViewMvc.showProgress();
-            mFetchCategoriesRankingUseCase.fetchCategoriesAndNotify();
+            startDataFetching();
         } else if(event instanceof PromptDialogEvent && ((PromptDialogEvent)event).getClickedButton() == PromptDialogEvent.Button.POSITIVE) {
             super.onBackPressed();
         }

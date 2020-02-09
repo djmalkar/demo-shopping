@@ -28,6 +28,9 @@ public interface DbHelper {
 
     Single<List<Long>> insertProducts(List<ProductTable> productTables);
     Single<List<ProductTable>> getProductsByTypeId(int productTypeId);
+    Single<List<ProductTable>> getProductsOrderSortByTypeId(int productTypeId);
+    Single<List<ProductTable>> getProductsViewSortByTypeId(int productTypeId);
+    Single<List<ProductTable>> getProductsShareSortByTypeId(int productTypeId);
 
     Single<List<Long>> insertVariants(List<VariantTable> variantTables);
     Single<List<VariantModel>> getVariantsByProductId(int productId);

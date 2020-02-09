@@ -16,14 +16,20 @@ public class ProductItemViewMvc extends BaseObservableViewMvc<ProductItemViewMvc
         void onProductClicked(ProductTable productTable);
     }
 
-    private final TextView mText;
+    private final TextView mProductName;
+    private final TextView mViews;
+    private final TextView mOrders;
+    private final TextView mShares;
 
     private ProductTable mProduct;
 
     public ProductItemViewMvc(LayoutInflater inflater, @Nullable ViewGroup parent) {
-        setRootView(inflater.inflate(R.layout.item_list_view, parent, false));
+        setRootView(inflater.inflate(R.layout.item_product_view, parent, false));
 
-        mText = findViewById(R.id.text);
+        mProductName = findViewById(R.id.product_name);
+        mViews = findViewById(R.id.view_counts);
+        mOrders = findViewById(R.id.order_counts);
+        mShares = findViewById(R.id.shared_counts);
 
         getRootView().setOnClickListener(view -> {
             if(getListeners() != null) {
@@ -34,6 +40,9 @@ public class ProductItemViewMvc extends BaseObservableViewMvc<ProductItemViewMvc
 
     public void bindData(ProductTable productTable) {
         mProduct = productTable;
-        mText.setText(productTable.name);
+        mProductName.setText(productTable.name);
+        mViews.setText("Total Views : " + productTable.viewCounts);
+        mOrders.setText("Total Orders : " + productTable.orderCounts);
+        mShares.setText("Total Shares : " + productTable.sharedCounts);
     }
 }

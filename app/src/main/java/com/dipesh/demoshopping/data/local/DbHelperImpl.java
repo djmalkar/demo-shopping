@@ -62,6 +62,21 @@ public class DbHelperImpl implements DbHelper {
     }
 
     @Override
+    public Single<List<ProductTable>> getProductsOrderSortByTypeId(int productTypeId) {
+        return mAppDatabase.productDao().getProductsOrderSortByTypeId(productTypeId);
+    }
+
+    @Override
+    public Single<List<ProductTable>> getProductsViewSortByTypeId(int productTypeId) {
+        return mAppDatabase.productDao().getProductsViewSortByTypeId(productTypeId);
+    }
+
+    @Override
+    public Single<List<ProductTable>> getProductsShareSortByTypeId(int productTypeId) {
+        return mAppDatabase.productDao().getProductsShareSortByTypeId(productTypeId);
+    }
+
+    @Override
     public Single<List<Long>> insertVariants(List<VariantTable> variantTables) {
         return mAppDatabase.variantDao().insertAll(variantTables);
     }

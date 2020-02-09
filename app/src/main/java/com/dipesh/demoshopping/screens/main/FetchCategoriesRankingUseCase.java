@@ -21,6 +21,7 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
 
     public interface Listener {
         void onCategoriesFetched(List<CategoryTable> categoryTables);
+        void onFetchingFailed();
     }
 
     private final DbHelper mDbHelper;
@@ -57,7 +58,9 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
 
                     @Override
                     public void onError(Throwable e) {
-                        fetchFromRemoteServer();
+                        if(getListener() != null) {
+                            getListener().onFetchingFailed();
+                        }
                     }
                 });
 

@@ -19,4 +19,13 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE productTypeId = :typeId")
     Single<List<ProductTable>> getProductsByTypeId(int typeId);
 
+    @Query("SELECT * FROM product WHERE productTypeId = :typeId ORDER BY orderCounts")
+    Single<List<ProductTable>> getProductsOrderSortByTypeId(int typeId);
+
+    @Query("SELECT * FROM product WHERE productTypeId = :typeId ORDER BY viewCounts")
+    Single<List<ProductTable>> getProductsViewSortByTypeId(int typeId);
+
+    @Query("SELECT * FROM product WHERE productTypeId = :typeId ORDER BY sharedCounts")
+    Single<List<ProductTable>> getProductsShareSortByTypeId(int typeId);
+
 }

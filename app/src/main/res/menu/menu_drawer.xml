@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_viewed"
+            android:title="Most Viewed" />
+        <item
+            android:id="@+id/drawer_menu_ordered"
+            android:title="Most Ordered" />
+        <item
+            android:id="@+id/drawer_menu_shared"
+            android:title="Most Shared" />
+    </group>
+</menu>

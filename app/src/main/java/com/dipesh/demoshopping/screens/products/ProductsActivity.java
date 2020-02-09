@@ -53,8 +53,12 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
 
         if(mIsFirstTime) {
             mIsFirstTime = false;
-            mFetchProductsUseCase.getProductsAndNotify(getIntent().getIntExtra(PRODUCT_TYPE_ID, 0));
+            mFetchProductsUseCase.getProductsAndNotify(getProductId());
         }
+    }
+
+    private int getProductId() {
+        return getIntent().getIntExtra(PRODUCT_TYPE_ID, 0);
     }
 
     @Override
@@ -72,6 +76,21 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
     @Override
     public void onProductClicked(int productId) {
         mDialogsManager.showVariantDialog(productId, VariantsDialog.TAG);
+    }
+
+    @Override
+    public void onOrderSorted() {
+        mFetchProductsUseCase.getProductsByOrderAndNotify(getProductId());
+    }
+
+    @Override
+    public void onViewSorted() {
+        mFetchProductsUseCase.getProductsByViewAndNotify(getProductId());
+    }
+
+    @Override
+    public void onSharedSorted() {
+        mFetchProductsUseCase.getProductsByShareAndNotify(getProductId());
     }
 
     private String getProductType() {

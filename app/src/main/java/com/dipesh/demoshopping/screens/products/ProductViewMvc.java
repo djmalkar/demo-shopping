@@ -21,6 +21,9 @@ public class ProductViewMvc extends BaseObservableViewMvc<ProductViewMvc.Listene
     public interface Listener {
         void onBackClicked();
         void onProductClicked(int productId);
+        void onOrderSorted();
+        void onViewSorted();
+        void onSharedSorted();
     }
 
     private final ToolbarViewMvc mToolbarViewMvc;
@@ -48,6 +51,21 @@ public class ProductViewMvc extends BaseObservableViewMvc<ProductViewMvc.Listene
 
     private void initToolbar() {
         mToolbar.addView(mToolbarViewMvc.getRootView());
+        mToolbar.inflateMenu(R.menu.menu_drawer);
+        mToolbar.setOnMenuItemClickListener(item -> {
+            if(getListeners() == null) {
+                return false;
+            }
+            switch (item.getItemId()) {
+                case R.id.drawer_menu_viewed : getListeners().onViewSorted();
+                    break;
+                case R.id.drawer_menu_ordered : getListeners().onOrderSorted();
+                    break;
+                case R.id.drawer_menu_shared : getListeners().onSharedSorted();
+                    break;
+            }
+            return false;
+        });
 
         mToolbarViewMvc.enableUpButtonAndListen(() -> {
             if(getListeners() != null) {

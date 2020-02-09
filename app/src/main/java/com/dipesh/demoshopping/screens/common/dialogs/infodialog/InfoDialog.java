@@ -49,7 +49,7 @@ public class InfoDialog extends BaseDialog {
 
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_info);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         mTxtTitle = dialog.findViewById(R.id.txt_title);
         mTxtMessage = dialog.findViewById(R.id.txt_message);
