@@ -8,6 +8,8 @@ import com.dipesh.demoshopping.model.tables.SubCategoryTable;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -23,6 +25,7 @@ public class FetchSubCategoryForAdapterUseCase extends BaseObservable<FetchSubCa
     private HashMap<Integer, SubCategoryModel> mSubCategoryModelHashMap = new HashMap<>();
     private int mCount = 0;
 
+    @Inject
     public FetchSubCategoryForAdapterUseCase(DbHelper dbHelper) {
         mDbHelper = dbHelper;
     }

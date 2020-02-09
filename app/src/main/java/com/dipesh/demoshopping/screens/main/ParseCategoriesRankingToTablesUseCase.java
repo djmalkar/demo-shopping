@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class ParseCategoriesRankingToTablesUseCase {
 
     private CategoriesSchema[] mCategoriesSchemas;
@@ -34,6 +36,9 @@ public class ParseCategoriesRankingToTablesUseCase {
     private List<ProductTypeTable> mProductTypeTables = new ArrayList<>();
     private List<ProductTable> mProductTables = new ArrayList<>();
     private List<VariantTable> mVariantTables = new ArrayList<>();
+
+    @Inject
+    public ParseCategoriesRankingToTablesUseCase() { }
 
     public CategoriesTableModel parseSchema(CategoriesRankingSchema categoriesRankingSchema) {
         // for convenience take one extra size
@@ -130,6 +135,8 @@ public class ParseCategoriesRankingToTablesUseCase {
             productTable.productTypeId = productTypeId;
             productTable.name = product.name;
             productTable.date = product.date_added;
+            productTable.taxName = product.tax.name;
+            productTable.taxValue = product.tax.value;
             productTable.viewCounts = mViewRanking.get(product.id) == null ? 0 : mViewRanking.get(product.id);
             productTable.orderCounts = mOrderRanking.get(product.id) == null ? 0 : mOrderRanking.get(product.id);
             productTable.sharedCounts = mSharedRanking.get(product.id) == null ? 0 : mSharedRanking.get(product.id);

@@ -1,7 +1,9 @@
 package com.dipesh.demoshopping.screens.common.dialogs.promptdialog;
 
 import android.app.Dialog;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import com.dipesh.demoshopping.screens.base.BaseDialog;
 import com.dipesh.demoshopping.screens.common.dialogs.DialogsEventBus;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 
 public class PromptDialog extends BaseDialog implements PromptViewMvc.Listener {
 
+    public static final String TAG = "PromptDialog";
     protected static final String ARG_TITLE = "ARG_TITLE";
     protected static final String ARG_MESSAGE = "ARG_MESSAGE";
     protected static final String ARG_POSITIVE_BUTTON_CAPTION = "ARG_POSITIVE_BUTTON_CAPTION";
@@ -39,6 +42,8 @@ public class PromptDialog extends BaseDialog implements PromptViewMvc.Listener {
             throw new IllegalStateException("arguments mustn't be null");
         }
 
+        getPresentationComponent().injectPromptDialog(this);
+
         mViewMvc = getPresentationComponent().getViewMvcFactory().getPromptViewMvc(null);
 
         mViewMvc.setTitle(getArguments().getString(ARG_TITLE));
@@ -48,6 +53,10 @@ public class PromptDialog extends BaseDialog implements PromptViewMvc.Listener {
 
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(mViewMvc.getRootView());
+
+        Point size = new Point();
+        dialog.getWindow().getWindowManager().getDefaultDisplay().getSize(size);
+        dialog.getWindow().setLayout((int) (size.x * 0.80), ViewGroup.LayoutParams.WRAP_CONTENT);
 
         return dialog;
     }

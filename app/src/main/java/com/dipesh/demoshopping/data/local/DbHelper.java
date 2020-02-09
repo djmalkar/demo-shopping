@@ -5,6 +5,7 @@ import com.dipesh.demoshopping.model.tables.ProductTable;
 import com.dipesh.demoshopping.model.tables.ProductTypeTable;
 import com.dipesh.demoshopping.model.tables.SubCategoryTable;
 import com.dipesh.demoshopping.model.tables.VariantTable;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantModel;
 
 import java.util.List;
 
@@ -29,6 +30,6 @@ public interface DbHelper {
     Single<List<ProductTable>> getProductsByTypeId(int productTypeId);
 
     Single<List<Long>> insertVariants(List<VariantTable> variantTables);
-
+    Single<List<VariantModel>> getVariantsByProductId(int productId);
 
 }

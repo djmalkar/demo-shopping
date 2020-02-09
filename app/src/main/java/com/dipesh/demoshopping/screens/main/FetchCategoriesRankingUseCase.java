@@ -9,6 +9,8 @@ import com.dipesh.demoshopping.model.tables.CategoryTable;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -28,6 +30,7 @@ public class FetchCategoriesRankingUseCase extends BaseObservable<FetchCategorie
 
     private static final String TAG = "FetchCategoriesRanking";
 
+    @Inject
     public FetchCategoriesRankingUseCase(DbHelper dbHelper, ApiRetrofit apiRetrofit,
                                          ParseCategoriesRankingToTablesUseCase parseCategoriesRankingToTablesUseCase) {
         mDbHelper = dbHelper;

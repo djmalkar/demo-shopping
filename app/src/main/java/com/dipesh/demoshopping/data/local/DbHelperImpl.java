@@ -5,10 +5,9 @@ import com.dipesh.demoshopping.model.tables.ProductTable;
 import com.dipesh.demoshopping.model.tables.ProductTypeTable;
 import com.dipesh.demoshopping.model.tables.SubCategoryTable;
 import com.dipesh.demoshopping.model.tables.VariantTable;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantModel;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.Single;
 
@@ -20,7 +19,6 @@ public class DbHelperImpl implements DbHelper {
 
     private final AppDatabase mAppDatabase;
 
-    @Inject
     public DbHelperImpl(AppDatabase appDatabase){this.mAppDatabase = appDatabase;}
 
     @Override
@@ -66,5 +64,10 @@ public class DbHelperImpl implements DbHelper {
     @Override
     public Single<List<Long>> insertVariants(List<VariantTable> variantTables) {
         return mAppDatabase.variantDao().insertAll(variantTables);
+    }
+
+    @Override
+    public Single<List<VariantModel>> getVariantsByProductId(int productId) {
+        return mAppDatabase.variantDao().getVariantsByProductId(productId);
     }
 }

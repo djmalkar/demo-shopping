@@ -4,4 +4,7 @@
     <string name="exit_message_message">Do you wish to exit?</string>
     <string name="exit_positive_button_caption">Yes</string>
     <string name="exit_negative_button_caption">No</string>
+    <string name="no_internet_title">No Internet Detected</string>
+    <string name="no_internet_message">Please make sure you are connected to working cellular network or wifi, then click on retry</string>
+    <string name="no_internet_button">Retry</string>
 </resources>

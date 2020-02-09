@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.dipesh.demoshopping.model.tables.ProductTable;
 import com.dipesh.demoshopping.screens.base.BaseActivity;
+import com.dipesh.demoshopping.screens.common.dialogs.DialogsManager;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantsDialog;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
     private boolean mIsFirstTime = true;
 
     @Inject FetchProductsUseCase mFetchProductsUseCase;
+    @Inject
+    DialogsManager mDialogsManager;
 
     private static final String PRODUCT_TYPE_ID = "PRODUCT_TYPE_ID";
     private static final String PRODUCT_TYPE = "PRODUCT_TYPE";
@@ -67,7 +71,7 @@ public class ProductsActivity extends BaseActivity implements ProductViewMvc.Lis
 
     @Override
     public void onProductClicked(int productId) {
-
+        mDialogsManager.showVariantDialog(productId, VariantsDialog.TAG);
     }
 
     private String getProductType() {

@@ -1,7 +1,7 @@
-package com.dipesh.demoshopping.dependencyinjection.components;
+package com.dipesh.demoshopping.dependencyinjection.application;
 
-import com.dipesh.demoshopping.dependencyinjection.modules.ApplicationModule;
-import com.dipesh.demoshopping.dependencyinjection.modules.PresentationModule;
+import com.dipesh.demoshopping.dependencyinjection.presentation.PresentationComponent;
+import com.dipesh.demoshopping.dependencyinjection.presentation.PresentationModule;
 
 import javax.inject.Singleton;
 

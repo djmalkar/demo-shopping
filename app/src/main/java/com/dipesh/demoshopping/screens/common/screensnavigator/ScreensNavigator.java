@@ -6,11 +6,14 @@ import com.dipesh.demoshopping.screens.common.fragmentframehelper.FragmentFrameH
 import com.dipesh.demoshopping.screens.products.ProductsActivity;
 import com.dipesh.demoshopping.screens.subcategorieslisting.SubCategoriesFragment;
 
+import javax.inject.Inject;
+
 public class ScreensNavigator {
 
     private FragmentFrameHelper mFragmentFrameHelper;
     private Context mContext;
 
+    @Inject
     public ScreensNavigator(Context context, FragmentFrameHelper fragmentFrameHelper) {
         mFragmentFrameHelper = fragmentFrameHelper;
         mContext = context;

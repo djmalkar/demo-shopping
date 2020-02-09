@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 
 import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptViewMvc;
 import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptViewMvcImpl;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantsItemViewMvc;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantsViewMvc;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerHelper;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerViewMvc;
 import com.dipesh.demoshopping.screens.common.navdrawer.NavDrawerViewMvcImpl;
@@ -15,12 +17,15 @@ import com.dipesh.demoshopping.screens.subcategorieslisting.SubCategoriesViewMvc
 import com.dipesh.demoshopping.screens.subcategorieslisting.listitem.SubCategoriesHeaderItemViewMvc;
 import com.dipesh.demoshopping.screens.subcategorieslisting.listitem.SubCategoryItemViewMvc;
 
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
 
 public class ViewMvcFactory {
 
     private final LayoutInflater mLayoutInflater;
 
+    @Inject
     public ViewMvcFactory(LayoutInflater layoutInflater) {
         mLayoutInflater = layoutInflater;
     }
@@ -55,5 +60,13 @@ public class ViewMvcFactory {
 
     public PromptViewMvc getPromptViewMvc(ViewGroup viewGroup) {
         return new PromptViewMvcImpl(mLayoutInflater, null);
+    }
+
+    public VariantsItemViewMvc getVariantItemViewMvc(ViewGroup parent) {
+        return new VariantsItemViewMvc(mLayoutInflater, null);
+    }
+
+    public VariantsViewMvc getVariantViewMvc(ViewGroup parent) {
+        return new VariantsViewMvc(mLayoutInflater, null, this);
     }
 }

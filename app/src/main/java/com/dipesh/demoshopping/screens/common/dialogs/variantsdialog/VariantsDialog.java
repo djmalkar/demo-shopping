@@ -1,33 +1,32 @@
 package com.dipesh.demoshopping.screens.common.dialogs.variantsdialog;
 
 import android.app.Dialog;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import com.dipesh.demoshopping.screens.base.BaseDialog;
-import com.dipesh.demoshopping.screens.common.dialogs.DialogsEventBus;
-import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptDialog;
-import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptDialogEvent;
-import com.dipesh.demoshopping.screens.common.dialogs.promptdialog.PromptViewMvc;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 
-public class VariantsDialog extends BaseDialog implements PromptViewMvc.Listener {
+public class VariantsDialog extends BaseDialog implements FetchVariantsUseCase.Listener {
 
+    public static final String TAG = "VariantsDialog";
     protected static final String PRODUCT_ID = "PRODUCT_ID";
 
-    public static PromptDialog newPromptDialog(int productId) {
-        PromptDialog promptDialog = new PromptDialog();
+    public static VariantsDialog newVariantDialog(int productId) {
+        VariantsDialog variantsDialog = new VariantsDialog();
         Bundle args = new Bundle(1);
         args.putInt(PRODUCT_ID, productId);
-        promptDialog.setArguments(args);
-        return promptDialog;
+        variantsDialog.setArguments(args);
+        return variantsDialog;
     }
 
-    @Inject
-    DialogsEventBus mDialogsEventBus;
-    private PromptViewMvc mViewMvc;
+    @Inject FetchVariantsUseCase mFetchVariantsUseCase;
+    private VariantsViewMvc mViewMvc;
 
     @NonNull
     @Override
@@ -36,11 +35,15 @@ public class VariantsDialog extends BaseDialog implements PromptViewMvc.Listener
             throw new IllegalStateException("arguments mustn't be null");
         }
 
-        mViewMvc = getPresentationComponent().getViewMvcFactory().getPromptViewMvc(null);
-
+        getPresentationComponent().injectVariantsDialog(this);
+        mViewMvc = getPresentationComponent().getViewMvcFactory().getVariantViewMvc(null);
 
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(mViewMvc.getRootView());
+
+        Point size = new Point();
+        dialog.getWindow().getWindowManager().getDefaultDisplay().getSize(size);
+        dialog.getWindow().setLayout((int) (size.x * 0.80), (int) (size.y * 0.80));
 
         return dialog;
     }
@@ -48,25 +51,18 @@ public class VariantsDialog extends BaseDialog implements PromptViewMvc.Listener
     @Override
     public void onStart() {
         super.onStart();
-        mViewMvc.registerListener(this);
+        mFetchVariantsUseCase.registerListener(this);
+        mFetchVariantsUseCase.fetchVariantsAndNotify(getArguments().getInt(PRODUCT_ID));
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mViewMvc.unregisterListener(this);
+        mFetchVariantsUseCase.removeListener(this);
     }
 
     @Override
-    public void onPositiveButtonClicked() {
-        dismiss();
-        mDialogsEventBus.postEvent(new PromptDialogEvent(PromptDialogEvent.Button.POSITIVE));
+    public void onVariantsFetched(List<VariantModel> variants) {
+        mViewMvc.bindData(variants);
     }
-
-    @Override
-    public void onNegativeButtonClicked() {
-        dismiss();
-        mDialogsEventBus.postEvent(new PromptDialogEvent(PromptDialogEvent.Button.NEGATIVE));
-    }
-
 }

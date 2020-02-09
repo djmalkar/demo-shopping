@@ -1,8 +1,10 @@
-package com.dipesh.demoshopping.dependencyinjection.modules;
+package com.dipesh.demoshopping.dependencyinjection.application;
 
 import android.app.Application;
 
 import com.dipesh.demoshopping.data.local.AppDatabase;
+import com.dipesh.demoshopping.data.local.DbHelper;
+import com.dipesh.demoshopping.data.local.DbHelperImpl;
 import com.dipesh.demoshopping.data.remote.ApiRetrofit;
 import com.dipesh.demoshopping.screens.common.dialogs.DialogsEventBus;
 
@@ -63,6 +65,12 @@ public class ApplicationModule {
     @Singleton
     public ApiRetrofit getApiService(Retrofit retrofit) {
         return retrofit.create(ApiRetrofit.class);
+    }
+
+    @Provides
+    @Singleton
+    public DbHelper getDbHelper(AppDatabase appDatabase) {
+        return new DbHelperImpl(appDatabase);
     }
 
     @Provides

@@ -6,6 +6,8 @@ import com.dipesh.demoshopping.model.tables.ProductTable;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -18,6 +20,7 @@ public class FetchProductsUseCase extends BaseObservable<FetchProductsUseCase.Li
 
     private final DbHelper mDbHelper;
 
+    @Inject
     public FetchProductsUseCase(DbHelper mDbHelper) {
         this.mDbHelper = mDbHelper;
     }

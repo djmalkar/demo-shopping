@@ -3,9 +3,9 @@ package com.dipesh.demoshopping;
 import android.app.Activity;
 import android.app.Application;
 
-import com.dipesh.demoshopping.dependencyinjection.components.ApplicationComponent;
-import com.dipesh.demoshopping.dependencyinjection.components.DaggerApplicationComponent;
-import com.dipesh.demoshopping.dependencyinjection.modules.ApplicationModule;
+import com.dipesh.demoshopping.dependencyinjection.application.ApplicationComponent;
+import com.dipesh.demoshopping.dependencyinjection.application.ApplicationModule;
+import com.dipesh.demoshopping.dependencyinjection.application.DaggerApplicationComponent;
 
 public class ShoppingApplication extends Application {
 

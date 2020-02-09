@@ -10,6 +10,8 @@ public class ProductTable {
     public int productTypeId;
     public String name;
     public String date;
+    public String taxName;
+    public float taxValue;
     public int viewCounts;
     public int orderCounts;
     public int sharedCounts;

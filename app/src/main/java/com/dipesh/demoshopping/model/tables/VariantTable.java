@@ -11,5 +11,4 @@ public class VariantTable {
     public String color;
     public int size;
     public int price;
-    public int taxId;
 }

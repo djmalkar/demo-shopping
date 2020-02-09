@@ -47,6 +47,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ProductItemViewMvc viewMvc = mViewMvcFactory.getProductItemViewMvc(parent);
+        viewMvc.registerListener(this);
         return new ProductViewHolder(viewMvc);
     }
 

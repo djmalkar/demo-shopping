@@ -1,6 +1,7 @@
 package com.dipesh.demoshopping.data.local.dao;
 
 import com.dipesh.demoshopping.model.tables.VariantTable;
+import com.dipesh.demoshopping.screens.common.dialogs.variantsdialog.VariantModel;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface VariantDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Single<List<Long>> insertAll(List<VariantTable> variants);
 
-    @Query("SELECT * FROM variant")
-    List<VariantTable> getAllVariants();
+    @Query("SELECT color, size, price, taxValue FROM variant JOIN product ON variant.productId = product.id WHERE productId = :productId")
+    Single<List<VariantModel>> getVariantsByProductId(int productId);
 
 }
